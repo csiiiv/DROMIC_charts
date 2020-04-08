@@ -7,9 +7,9 @@ function generateCharts(subDataKey) {
   var counts = 0;
   var x_max = 1400000000;
   var count_max = 0;
-  
+
   for (var idx in sorted_keys) {
-    if (counts <= 3) {
+    if (counts <= 99) {
       var key = sorted_keys[idx].key;
       var offices = keys[key];
 
@@ -135,6 +135,16 @@ function data_fxn(title, key, color, subDataKey, y_max, range_val) {
     .attr("height", "100%")
     .attr("fill", "white");
 
+  // ADDED polygon clipping ////////////////////////
+  svg
+    .append("defs")
+    .append("clipPath")
+    .attr("id", "clip")
+    .append("rect")
+    .attr("width", width)
+    .attr("height", height);
+  /////////////////////////////////////
+
   // *****************************************************************************
   // add X axis
   // *****************************************************************************
@@ -170,7 +180,7 @@ function data_fxn(title, key, color, subDataKey, y_max, range_val) {
   // Add Y axis
   // *****************************************************************************
 
-  var y = d3.scaleLinear().domain([0, y_max]).range([height, 0]);
+  var y = d3.scaleLinear().domain([0, y_max]).range([height, 0]).nice();
   svg.append("g").call(
     d3
       .axisLeft(y)
@@ -265,6 +275,9 @@ function data_fxn(title, key, color, subDataKey, y_max, range_val) {
       .data(DROMIC_data.data[subkey][subDataKey])
       .enter()
       .append("path")
+      // CLIPS LINES OUTSIDE DOMAIN ////////////////////////////////
+      .attr("clip-path", "url(#clip)")
+      ///////////////////////////////////////////
       .datum(DROMIC_data.data[subkey][subDataKey])
       .attr("fill", "none")
       .attr("stroke", Hex2rgba(subcolor, subAlpha))
