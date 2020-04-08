@@ -1,17 +1,17 @@
 keys = {};
-
 sorted_keys = [];
 
-main();
-
-function main() {
-  generateKeys("TSFS");
+function generateCharts(subDataKey) {
+  generateKeys(subDataKey);
 
   var counts = 0;
+  var x_max = 1400000000;
+  var count_max = 0;
+  
   for (var idx in sorted_keys) {
     if (counts <= 3) {
-      item = sorted_keys[idx].key;
-      var offices = keys[item];
+      var key = sorted_keys[idx].key;
+      var offices = keys[key];
 
       var title = "";
       if (
@@ -24,14 +24,21 @@ function main() {
 
       title += offices.key;
 
-      data_fxn(title, offices.key, offices.color, "TSFS", 1400000000, -1);
+      data_fxn(
+        title,
+        offices.key,
+        offices.color,
+        subDataKey,
+        keys[key].maxValue * 1.2,
+        -1
+      );
       // 1400000000
       // 250000000
       //. 60000000
     } else {
       break;
-      item = sorted_keys[idx].key;
-      var offices = keys[item];
+      key = sorted_keys[idx].key;
+      var offices = keys[key];
 
       var title = "";
       if (
@@ -44,7 +51,7 @@ function main() {
 
       title += offices.key;
 
-      data_fxn(title, offices.key, offices.color, "TSFS", 75000000, 3);
+      data_fxn(title, offices.key, offices.color, subDataKey, 75000000, 3);
       // 1400000000
       // 250000000
       //. 60000000
@@ -54,6 +61,8 @@ function main() {
 }
 
 function generateKeys(subkey) {
+  keys = {};
+  sorted_keys = [];
   var colorArray = generateRandomColors(20);
   var count = 0;
 
@@ -107,8 +116,8 @@ function data_fxn(title, key, color, subDataKey, y_max, range_val) {
   // *****************************************************************************
   // append the svg object to the body of the page
   // *****************************************************************************
-
-  var svg = d3
+  var svg = {};
+  svg = d3
     .select("#div_template")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -301,7 +310,7 @@ function data_fxn(title, key, color, subDataKey, y_max, range_val) {
       value = formatMoney(value, "₱");
 
       str += value + br;
-      str += "Dromic Sitrep # " + d.report_num + br;
+      str += "DROMIC Sitrep # " + d.report_num + br;
       var date = new Date(d.date * 1000);
       str +=
         date.getFullYear() +
