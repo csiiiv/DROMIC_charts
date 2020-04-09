@@ -322,10 +322,11 @@ function data_fxn(title, key, color, subDataKey, y_max, range_val) {
       var value = parseFloat(d.value);
       value = formatMoney(value, "₱");
 
-      str += value + br;
-      str += "DROMIC Sitrep # " + d.report_num + br;
+      str += "<b> Value: </b> " + value + br;
+      str += "<b> Ref: </b>DROMIC Sitrep # " + d.report_num + br;
       var date = new Date(d.date * 1000);
       str +=
+        "<b> Release date:</b> " +
         date.getFullYear() +
         "/" +
         date.getMonth() +
