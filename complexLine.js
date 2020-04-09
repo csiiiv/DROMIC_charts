@@ -362,6 +362,10 @@ function data_fxn(title, key, color, subDataKey, y_max, range_val) {
         tooltip_modify(d, tooltip, subcolor);
         d3.select(this).style("stroke", "black");
       };
+      var mouseclick = function (d) {
+        tooltip_modify(d, tooltip, subcolor);
+        d3.select(this).style("stroke", "black");
+      };
       var mousemove = function (d) {
         tooltip.html(tooltip_text(d));
         tooltip
@@ -375,6 +379,7 @@ function data_fxn(title, key, color, subDataKey, y_max, range_val) {
       };
 
       point
+        .on("mouseclick", mouseclick)
         .on("mouseover", mouseover)
         .on("mousemove", mousemove)
         .on("mouseleave", mouseleave);
